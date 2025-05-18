@@ -57,8 +57,14 @@ const initialMenuData: NavGroupProps[] = [
       {
         isSelected: false,
         isDisabled: false,
-        text: "Acesso e Criação de Usuário",
-        navigateTo: "/acesso-criacao-usuario",
+        text: "Acesso",
+        navigateTo: "/acesso",
+      },
+      {
+        isSelected: false,
+        isDisabled: false,
+        text: "Criação de Usuário",
+        navigateTo: "/client/Access",
       },
       {
         isSelected: false,

@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export interface NavItemProps {
   isSelected: boolean;
@@ -19,19 +20,11 @@ const NavItem: React.FC<NavItemProps> = ({
         isDisabled ? "cursor-not-allowed" : ""
       } p-2 rounded`}
     >
-      <a
-        href={navigateTo}
-        className={`${isDisabled ? "text-gray-500" : "text-white"} ${
-          isSelected ? "font-bold" : ""
-        }`}
-        onClick={(e) => {
-          if (isDisabled) {
-            e.preventDefault();
-          }
-        }}
-      >
-        {text}
-      </a>
+      <Link href={navigateTo} passHref legacyBehavior>
+        <a className={`${isSelected ? "font-bold" : ""} text-white hover:underline`}>
+          {text}
+        </a>
+      </Link>
     </li>
   );
 };
