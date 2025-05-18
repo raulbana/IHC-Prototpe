@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavGroupProps } from "./NavGroup/NavGroup";
-
-/*  NavItemProps {
-  isSelected: boolean;
-  isDisabled: boolean;
-  text: string;
-  navigateTo: string;
-} */
+import { usePathname } from "next/navigation";
 
 const initialMenuData: NavGroupProps[] = [
   {
@@ -192,6 +186,12 @@ const initialMenuData: NavGroupProps[] = [
         text: "Contato LABCIPEAD",
         navigateTo: "/contato-labcipead",
       },
+    ],
+    isOpen: false,
+  },
+  {
+    title: "Universidade Aberta do Brasil (UAB)",
+    items: [
       {
         isSelected: false,
         isDisabled: false,
@@ -228,18 +228,6 @@ const initialMenuData: NavGroupProps[] = [
         text: "Formulários e Templates",
         navigateTo: "/uab-formularios-templates",
       },
-      {
-        isSelected: false,
-        isDisabled: false,
-        text: "Relatórios e Documentos",
-        navigateTo: "/relatorios-documentos",
-      },
-      {
-        isSelected: false,
-        isDisabled: false,
-        text: "Pagamento de Bolsas (UAB)",
-        navigateTo: "/pagamento-bolsas-uab",
-      },
     ],
     isOpen: false,
   },
@@ -263,8 +251,11 @@ const initialMenuData: NavGroupProps[] = [
   },
 ];
 
+// ...restante do hook permanece igual...
+
 const useSidebarMenu = () => {
   const [menuData, setMenuData] = useState(initialMenuData);
+  const pathname = usePathname();
 
   const toggleSection = (title: string) => {
     setMenuData((prevMenuData) =>
@@ -291,6 +282,26 @@ const useSidebarMenu = () => {
   useEffect(() => {
     initializeMenu();
   }, []);
+
+  const updateSectionItems = (
+    section: NavGroupProps,
+    pathname: string
+  ): NavGroupProps => {
+    console.log(pathname);
+    return {
+      ...section,
+      items: section.items.map((item) => ({
+        ...item,
+        isSelected: item.navigateTo === pathname,
+      })),
+    };
+  };
+
+  useEffect(() => {
+    setMenuData((prevMenuData) =>
+      prevMenuData.map((section) => updateSectionItems(section, pathname))
+    );
+  }, [pathname]);
 
   return {
     menuData,
