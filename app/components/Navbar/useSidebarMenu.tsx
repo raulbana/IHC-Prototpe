@@ -21,8 +21,8 @@ const initialMenuData: NavGroupProps[] = [
       {
         isSelected: false,
         isDisabled: false,
-        text: "Equipe",
-        navigateTo: "/equipe",
+        text: "Equipes",
+        navigateTo: "/sobre/equipes",
       },
       {
         isSelected: false,
@@ -209,12 +209,6 @@ const initialMenuData: NavGroupProps[] = [
         isDisabled: false,
         text: "Polos",
         navigateTo: "/uab-polos",
-      },
-      {
-        isSelected: false,
-        isDisabled: false,
-        text: "Equipe",
-        navigateTo: "/uab-equipe",
       },
       {
         isSelected: false,
