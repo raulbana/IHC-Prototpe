@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { NewsItemProps } from "./components/NewsItem/NewsItem";
 import { ImageLinkCardProps } from "../components/ImageLinkCard/ImageLinkCard";
+import UFPRAbertaImage from "../assets/acesso_ufpr_aberta.png";
 
 export function useHome() {
   const newsItems: NewsItemProps[] = useMemo(
@@ -46,6 +47,11 @@ export function useHome() {
         "https://cipead.ufpr.br/wp-content/uploads/2019/09/cursos_banner.png",
       imageAlt: "Acesso a apresentação de cursos",
       linkUrl: "http://cipead.ufpr.br//index.php/cursos/apresentacao/",
+    },
+    {
+      imageSrc: UFPRAbertaImage.src,
+      imageAlt: "Acesso à UFPR Aberta",
+      linkUrl: "https://ufpraberta.ufpr.br/",
     },
   ];
 
