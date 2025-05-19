@@ -112,7 +112,7 @@ const initialMenuData: NavGroupProps[] = [
         isSelected: false,
         isDisabled: false,
         text: "Carga Horária EaD",
-        navigateTo: "/carga-horaria-ead",
+        navigateTo: "/cursos/carga-horaria-ead",
       },
     ],
     isOpen: false,
@@ -293,7 +293,6 @@ const useSidebarMenu = () => {
     section: NavGroupProps,
     pathname: string
   ): NavGroupProps => {
-    console.log(pathname);
     return {
       ...section,
       items: section.items.map((item) => ({
