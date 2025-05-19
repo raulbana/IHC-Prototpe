@@ -10,8 +10,8 @@ export interface SidebarMenuProps {
 }
 
 const SidebarMenu = ({ children }: SidebarMenuProps) => {
-  const { menuData, toggleSection } = useSidebarMenu();
-
+  const { menuData, toggleSection, navigateToHome } = useSidebarMenu();
+  
   return (
     <div className="flex min-h-screen w-full">
       <aside className="flex flex-col w-64 h-screen bg-default-blue text-white fixed left-0 top-0 z-30">
@@ -21,6 +21,7 @@ const SidebarMenu = ({ children }: SidebarMenuProps) => {
             src="https://cipead.ufpr.br/wp-content/uploads/2025/01/bannersite25.png"
             width={300}
             height={60}
+            onClick={navigateToHome}
             priority
           />
         </div>

@@ -257,37 +257,39 @@ const initialMenuData: NavGroupProps[] = [
   },
 ];
 
-// ...restante do hook permanece igual...
-
 const useSidebarMenu = () => {
-  const [menuData, setMenuData] = useState(initialMenuData);
-  const pathname = usePathname();
+	const [menuData, setMenuData] = useState(initialMenuData);
+	const pathname = usePathname();
 
-  const toggleSection = (title: string) => {
-    setMenuData((prevMenuData) =>
-      prevMenuData.map((section) =>
-        section.title === title
-          ? { ...section, isOpen: !section.isOpen }
-          : section
-      )
-    );
-  };
+	const navigateToHome = () => {
+		window.location.href = "/";
+	};
 
-  const createOnToggle = (title: string) => () => toggleSection(title);
+	const toggleSection = (title: string) => {
+		setMenuData((prevMenuData) =>
+			prevMenuData.map((section) =>
+				section.title === title
+					? { ...section, isOpen: !section.isOpen }
+					: section
+			)
+		);
+	};
 
-  const initializeMenu = () => {
-    setMenuData((prevMenuData) =>
-      prevMenuData.map((section) => ({
-        ...section,
-        isOpen: false,
-        onToggle: createOnToggle(section.title),
-      }))
-    );
-  };
+	const createOnToggle = (title: string) => () => toggleSection(title);
 
-  useEffect(() => {
-    initializeMenu();
-  }, []);
+	const initializeMenu = () => {
+		setMenuData((prevMenuData) =>
+			prevMenuData.map((section) => ({
+				...section,
+				isOpen: false,
+				onToggle: createOnToggle(section.title),
+			}))
+		);
+	};
+
+	useEffect(() => {
+		initializeMenu();
+	}, []);
 
   const updateSectionItems = (
     section: NavGroupProps,
@@ -302,16 +304,17 @@ const useSidebarMenu = () => {
     };
   };
 
-  useEffect(() => {
-    setMenuData((prevMenuData) =>
-      prevMenuData.map((section) => updateSectionItems(section, pathname))
-    );
-  }, [pathname]);
+	useEffect(() => {
+		setMenuData((prevMenuData) =>
+			prevMenuData.map((section) => updateSectionItems(section, pathname))
+		);
+	}, [pathname]);
 
-  return {
-    menuData,
-    toggleSection,
-  };
+	return {
+		menuData,
+		toggleSection,
+		navigateToHome,
+	};
 };
 
 export default useSidebarMenu;
