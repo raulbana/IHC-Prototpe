@@ -27,6 +27,7 @@ const NavGroup: React.FC<NavGroupProps> = ({
             isOpen ? "rotate-90" : ""
           }`}
           size={16}
+          aria-label={isOpen ? "Fechar seção" : "Abrir seção"}
         />
       </button>
       <div

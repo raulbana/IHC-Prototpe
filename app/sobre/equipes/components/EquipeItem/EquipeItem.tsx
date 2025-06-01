@@ -37,9 +37,9 @@ const EquipeItem: React.FC<EquipeItemProps> = ({ nome, secoes }) => {
         <h3 className="py-4 border-b border-default-blue">{nome}</h3>
         <div className="text-default-blue transition-transform duration-200">
           {isExpanded ? (
-            <CaretUp size={24} weight="bold" />
+            <CaretUp size={24} weight="bold" aria-label="Fechar equipe" />
           ) : (
-            <CaretDown size={24} weight="bold" />
+            <CaretDown size={24} weight="bold" aria-label="Expandir equipe" />
           )}
         </div>
       </button>
