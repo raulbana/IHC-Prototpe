@@ -23,7 +23,7 @@ const NavGroup: React.FC<NavGroupProps> = ({
       >
         {title}
         <CaretRight
-          className={`transition-transform duration-200 ${
+          className={`transition-transform duration-200 cursor-pointer ${
             isOpen ? "rotate-90" : ""
           }`}
           size={16}

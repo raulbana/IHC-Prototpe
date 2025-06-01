@@ -2,6 +2,7 @@
 
 import { useCursosCargaHorariaEaD } from "./useCursosCargaHorariaEaD";
 import DataTable from "@/app/components/DataTable/DataTable";
+import DisciplinaDetalhes from "./components/DisciplinaDetalhes/DisciplinaDetalhes";
 
 export default function CargaHorariaEAD() {
     const {
@@ -15,6 +16,7 @@ export default function CargaHorariaEAD() {
         setor,
         disciplinas,
         columns,
+        detalhesRef,
     } = useCursosCargaHorariaEaD();
 
     return (
@@ -35,11 +37,11 @@ export default function CargaHorariaEAD() {
 
             <section className="max-w-5xl mx-auto my-4 rounded-xl p-4 bg-gray-50 shadow">
                 <h3 className="text-2xl font-semibold mb-4 text-default-blue">Navegue pelos Setores e Cursos</h3>
-                <div className="flex flex-wrap gap-4 items-end mb-6">
-                    <div>
+                <div className="flex gap-4 items-end mb-6">
+                    <div className="w-1/2">
                         <label className="block mb-1 font-medium">Setor:</label>
                         <select
-                            className="border rounded px-2 py-1"
+                            className="border rounded px-2 py-1 w-full"
                             value={setorSelecionado ?? ""}
                             onChange={e => {
                                 setSetorSelecionado(e.target.value === "" ? null : Number(e.target.value));
@@ -53,16 +55,17 @@ export default function CargaHorariaEAD() {
                             ))}
                         </select>
                     </div>
-                    <div>
+                    <div className="w-1/2">
                         <label className="block mb-1 font-medium">Curso:</label>
                         <select
-                            className="border rounded px-2 py-1"
+                            className={`border rounded px-2 py-1 w-full ${!setor ? 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-70' : ''}`}
                             value={cursoSelecionado ?? ""}
                             onChange={e => {
                                 setCursoSelecionado(e.target.value === "" ? null : Number(e.target.value));
                                 setDisciplinaSelecionada(null);
                             }}
                             disabled={!setor}
+                            title={!setor ? "Selecione um setor primeiro" : ""}
                         >
                             <option value="">Todos os cursos</option>
                             {setor?.cursos.map((c, idx) => (
@@ -86,20 +89,14 @@ export default function CargaHorariaEAD() {
                         ]}
                     />
                 </div>
-                {disciplinaSelecionada && (
-                    <div className="mt-8">
-                        <div className="border rounded p-4 bg-white shadow">
-                            <div className="font-bold text-lg mb-2">{disciplinaSelecionada.titulo} <span className="text-xs text-gray-500">({disciplinaSelecionada.natureza})</span></div>
-                            <div className="mb-1"><b>Curso:</b> {disciplinaSelecionada.curso}</div>
-                            <div className="mb-1"><b>Setor:</b> {disciplinaSelecionada.setor}</div>
-                            <div className="text-sm mt-2"><b>Ementa:</b> {disciplinaSelecionada.ementa}</div>
-                            <div className="text-sm mt-2"><b>Bibliografia:</b> {disciplinaSelecionada.bibliografia}</div>
-                            {disciplinaSelecionada.bibliografiaComplementar && (
-                                <div className="text-sm mt-2"><b>Bibliografia Complementar:</b> {disciplinaSelecionada.bibliografiaComplementar}</div>
-                            )}
-                        </div>
-                    </div>
-                )}
+                <div ref={detalhesRef}>
+                    {disciplinaSelecionada && (
+                            <DisciplinaDetalhes 
+                                disciplina={disciplinaSelecionada}
+                                onClose={() => setDisciplinaSelecionada(null)}
+                            />
+                        )}
+                </div>
             </section>
         </main>
     );

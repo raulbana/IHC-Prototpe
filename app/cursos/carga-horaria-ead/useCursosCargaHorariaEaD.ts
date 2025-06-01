@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 
 type Disciplina = {
     titulo: string;
@@ -23,6 +23,7 @@ export function useCursosCargaHorariaEaD() {
     const [setorSelecionado, setSetorSelecionado] = useState<number | null>(null);
     const [cursoSelecionado, setCursoSelecionado] = useState<number | null>(null);
     const [disciplinaSelecionada, setDisciplinaSelecionada] = useState<any | null>(null);
+    const detalhesRef = useRef<HTMLDivElement>(null);
 
     const setor = setores[setorSelecionado ?? -1];
 
@@ -77,6 +78,19 @@ export function useCursosCargaHorariaEaD() {
         loadSetores();
     }, []);
 
+
+    useEffect(() => {
+        if (disciplinaSelecionada && detalhesRef.current) {
+            setTimeout(() => {
+                detalhesRef.current?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+
+                });
+            }, 100);
+        }
+    }, [disciplinaSelecionada]);
+
     return {
         setores,
         setorSelecionado,
@@ -87,6 +101,7 @@ export function useCursosCargaHorariaEaD() {
         setDisciplinaSelecionada,
         disciplinas,
         columns,
-        setor
+        setor,
+        detalhesRef
     }
 }
