@@ -15,7 +15,7 @@ const SidebarMenu = ({ children }: SidebarMenuProps) => {
   return (
     <div className="flex min-h-screen w-full">
       <aside className="flex flex-col w-64 h-screen bg-default-blue text-white fixed left-0 top-0 z-30">
-        <div className="flex w-full justify-center items-center p-2">
+        <div className="flex w-full justify-center items-center p-2 cursor-pointer">
           <Image
             alt="seadip-banner"
             src="https://cipead.ufpr.br/wp-content/uploads/2025/01/bannersite25.png"
