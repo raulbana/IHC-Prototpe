@@ -2,6 +2,7 @@
 
 import { useCursosCargaHorariaEaD } from "./useCursosCargaHorariaEaD";
 import DataTable from "@/app/components/DataTable/DataTable";
+import DisciplinaDetalhes from "./components/DisciplinaDetalhes/DisciplinaDetalhes";
 
 export default function CargaHorariaEAD() {
     const {
@@ -15,6 +16,7 @@ export default function CargaHorariaEAD() {
         setor,
         disciplinas,
         columns,
+        detalhesRef,
     } = useCursosCargaHorariaEaD();
 
     return (
@@ -87,20 +89,14 @@ export default function CargaHorariaEAD() {
                         ]}
                     />
                 </div>
-                {disciplinaSelecionada && (
-                    <div className="mt-8">
-                        <div className="border rounded p-4 bg-white shadow">
-                            <div className="font-bold text-lg mb-2">{disciplinaSelecionada.titulo} <span className="text-xs text-gray-500">({disciplinaSelecionada.natureza})</span></div>
-                            <div className="mb-1"><b>Curso:</b> {disciplinaSelecionada.curso}</div>
-                            <div className="mb-1"><b>Setor:</b> {disciplinaSelecionada.setor}</div>
-                            <div className="text-sm mt-2"><b>Ementa:</b> {disciplinaSelecionada.ementa}</div>
-                            <div className="text-sm mt-2"><b>Bibliografia:</b> {disciplinaSelecionada.bibliografia}</div>
-                            {disciplinaSelecionada.bibliografiaComplementar && (
-                                <div className="text-sm mt-2"><b>Bibliografia Complementar:</b> {disciplinaSelecionada.bibliografiaComplementar}</div>
-                            )}
-                        </div>
-                    </div>
-                )}
+                <div ref={detalhesRef}>
+                    {disciplinaSelecionada && (
+                            <DisciplinaDetalhes 
+                                disciplina={disciplinaSelecionada}
+                                onClose={() => setDisciplinaSelecionada(null)}
+                            />
+                        )}
+                </div>
             </section>
         </main>
     );
