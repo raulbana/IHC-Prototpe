@@ -17,6 +17,8 @@ export default function CargaHorariaEAD() {
         disciplinas,
         columns,
         detalhesRef,
+        tabelaRef,
+        fecharDetalhes,
     } = useCursosCargaHorariaEaD();
 
     return (
@@ -35,7 +37,7 @@ export default function CargaHorariaEAD() {
                 </div>
             </section>
 
-            <section className="max-w-5xl mx-auto my-4 rounded-xl p-4 bg-gray-50 shadow">
+            <section className="max-w-5xl mx-auto my-4 rounded-xl p-4 bg-gray-50 shadow" ref={tabelaRef}>
                 <h3 className="text-2xl font-semibold mb-4 text-default-blue">Navegue pelos Setores e Cursos</h3>
                 <div className="flex gap-4 items-end mb-6">
                     <div className="w-1/2">
@@ -93,7 +95,7 @@ export default function CargaHorariaEAD() {
                     {disciplinaSelecionada && (
                             <DisciplinaDetalhes 
                                 disciplina={disciplinaSelecionada}
-                                onClose={() => setDisciplinaSelecionada(null)}
+                                onClose={fecharDetalhes}
                             />
                         )}
                 </div>
