@@ -40,9 +40,9 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, controls }) => {
           />
         </div>
       </div>
-      <div className="overflow-hidden rounded-lg border  border-gray-200 shadow">
-        <table className="w-full border-collapse bg-default-blue  text-left text-sm">
-          <thead className="bg-default-blue  text-white">
+      <div className="overflow-hidden rounded-lg border border-gray-200 shadow">
+        <table className="w-full border-collapse bg-default-blue text-left text-sm">
+          <thead className="bg-default-blue text-white">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -61,7 +61,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, controls }) => {
               table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={`hover:bg-blue-100 transition-colors even:bg-white odd:bg-blue-50 ${robotoFont.className}`}
+                  className={`hover:bg-blue-100 transition-colors even:bg-white odd:bg-blue-50 ${robotoFont.className} border-b border-gray-200`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id} className="px-4 py-3">
@@ -95,7 +95,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, controls }) => {
               <tr>
                 <td
                   colSpan={columns.length + (controls ? 1 : 0)}
-                  className="text-center py-6 text-gray-500"
+                  className="text-center py-6 text-gray-500 bg-blue-50"
                 >
                   Nenhum dado disponível.
                 </td>
