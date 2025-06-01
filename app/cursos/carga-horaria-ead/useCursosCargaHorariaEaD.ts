@@ -24,6 +24,7 @@ export function useCursosCargaHorariaEaD() {
     const [cursoSelecionado, setCursoSelecionado] = useState<number | null>(null);
     const [disciplinaSelecionada, setDisciplinaSelecionada] = useState<any | null>(null);
     const detalhesRef = useRef<HTMLDivElement>(null);
+    const tabelaRef = useRef<HTMLDivElement>(null);
 
     const setor = setores[setorSelecionado ?? -1];
 
@@ -84,12 +85,21 @@ export function useCursosCargaHorariaEaD() {
             setTimeout(() => {
                 detalhesRef.current?.scrollIntoView({
                     behavior: 'smooth',
-                    block: 'center',
-
+                    block: 'start',
                 });
             }, 100);
         }
     }, [disciplinaSelecionada]);
+
+    const fecharDetalhes = () => {
+        setDisciplinaSelecionada(null);
+        setTimeout(() => {
+            tabelaRef.current?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            });
+        }, 100);
+    };
 
     return {
         setores,
@@ -102,6 +112,8 @@ export function useCursosCargaHorariaEaD() {
         disciplinas,
         columns,
         setor,
-        detalhesRef
+        detalhesRef,
+        tabelaRef,
+        fecharDetalhes
     }
 }

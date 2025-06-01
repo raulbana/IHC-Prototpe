@@ -40,70 +40,72 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, controls }) => {
           />
         </div>
       </div>
-      <table className="w-full border-gray-800 bg-gray-400 border-2">
-        <thead className="bg-gray-400">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} className="p-2 text-left">
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.length > 0 ? (
-            table.getRowModel().rows.map((row) => (
-              <tr
-                key={row.id}
-                className={` odd:bg-gray-300 even:bg-gray-200 ${robotoFont.className}`}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="p-2">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
+      <div className="overflow-hidden rounded-lg border border-gray-200 shadow">
+        <table className="w-full border-collapse bg-default-blue text-left text-sm">
+          <thead className="bg-default-blue text-white">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th key={header.id} className="px-4 py-3 font-medium">
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                  </th>
                 ))}
-                {controls &&
-                  (typeof controls === "function"
-                    ? controls(currentData[row.index])
-                    : controls
-                  ).map((control, index) => (
-                    <td
-                      key={`controls-${control.text ?? index}`}
-                      className="p-2"
-                    >
-                      <Button
-                        {...control}
-                        onClick={() => {
-                          if (control.onClick) {
-                            control.onClick(currentData[row.index]);
-                          }
-                        }}
-                      >
-                        {control.children}
-                      </Button>
+              </tr>
+            ))}
+          </thead>
+          <tbody className="divide-y divide-gray-100 border-t border-gray-100">
+            {table.getRowModel().rows.length > 0 ? (
+              table.getRowModel().rows.map((row) => (
+                <tr
+                  key={row.id}
+                  className={`hover:bg-blue-100 transition-colors even:bg-white odd:bg-blue-50 ${robotoFont.className} border-b border-gray-200`}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id} className="px-4 py-3">
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
+                  {controls &&
+                    (typeof controls === "function"
+                      ? controls(currentData[row.index])
+                      : controls
+                    ).map((control, index) => (
+                      <td
+                        key={`controls-${control.text ?? index}`}
+                        className="px-4 py-3"
+                      >
+                        <Button
+                          {...control}
+                          onClick={() => {
+                            if (control.onClick) {
+                              control.onClick(currentData[row.index]);
+                            }
+                          }}
+                        >
+                          {control.children}
+                        </Button>
+                      </td>
+                    ))}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={columns.length + (controls ? 1 : 0)}
+                  className="text-center py-6 text-gray-500 bg-blue-50"
+                >
+                  Nenhum dado disponível.
+                </td>
               </tr>
-            ))
-          ) : (
-            <tr className=" bg-gray-300">
-              <td
-                colSpan={columns.length + (controls ? 1 : 0)}
-                className="text-center p-4"
-              >
-                Nenhum dado disponível.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
 
-      <div className="flex items-center justify-end text-default-blue gap-4 mt-4">
+      <div className="flex items-center justify-end text-default-blue gap-4 mt-6">
         <Button
           type={"SECONDARY"}
           size="SMALL"
@@ -112,8 +114,8 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, controls }) => {
         >
           <CaretLeft />
         </Button>
-        <span className={`text-sm font-bold`}>
-          {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
+        <span className={`text-sm font-medium`}>
+          Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
         </span>
         <Button
           type={"SECONDARY"}
