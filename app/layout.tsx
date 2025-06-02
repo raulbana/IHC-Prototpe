@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SidebarMenu from "./components/Navbar/SidebarMenu";
 import Footer from "./components/Footer/Footer";
+import Breadcrumb from "./components/Breadcrumb/Breadcrumb";
 import Header from "./components/Header/Header";
 
 const geistSans = Geist({
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <SidebarMenu>
           <Header />
+          <Breadcrumb className="mx-24 my-4" />
           {children}
           <Footer />
         </SidebarMenu>
