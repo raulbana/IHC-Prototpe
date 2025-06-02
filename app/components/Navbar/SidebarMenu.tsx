@@ -25,7 +25,7 @@ const SidebarMenu = ({ children }: SidebarMenuProps) => {
           <>
             <div className="flex w-full justify-center items-center p-2 cursor-pointer">
               <Image
-                alt="seadip-banner"
+                alt="Banner SEaDIP - Superintendência de Educação à Distância e Inovações Pedagógicas da UFPR"
                 src="https://cipead.ufpr.br/wp-content/uploads/2025/01/bannersite25.png"
                 width={300}
                 height={60}
@@ -66,7 +66,6 @@ const SidebarMenu = ({ children }: SidebarMenuProps) => {
           </button>
         )}
       </aside>
-      {/* Conteúdo principal */}
       <main
         className={`flex-1 overflow-x-hidden overflow-y-auto transition-all duration-300 ${
           isOpen ? "ml-64" : "ml-3"

@@ -112,7 +112,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, controls }) => {
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          <CaretLeft />
+          <CaretLeft aria-label="Página anterior" />
         </Button>
         <span className={`text-sm font-medium`}>
           Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
@@ -123,7 +123,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, controls }) => {
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          <CaretRight />
+          <CaretRight aria-label="Próxima página" />
         </Button>
       </div>
     </div>

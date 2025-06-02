@@ -4,6 +4,7 @@ import "./globals.css";
 import SidebarMenu from "./components/Navbar/SidebarMenu";
 import Footer from "./components/Footer/Footer";
 import Breadcrumb from "./components/Breadcrumb/Breadcrumb";
+import Header from "./components/Header/Header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SidebarMenu>
+          <Header />
           <Breadcrumb className="mx-24 my-4" />
           {children}
           <Footer />
