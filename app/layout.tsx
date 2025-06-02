@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SidebarMenu from "./components/Navbar/SidebarMenu";
 import Footer from "./components/Footer/Footer";
+import Breadcrumb from "./components/Breadcrumb/Breadcrumb";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SidebarMenu>
+          <Breadcrumb className="mx-24 my-4" />
           {children}
           <Footer />
         </SidebarMenu>
