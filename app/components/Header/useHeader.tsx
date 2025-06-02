@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 
 export interface HeaderLink {
   text: string;
@@ -6,12 +6,47 @@ export interface HeaderLink {
   title?: string;
 }
 
+export interface Language {
+  code: string;
+  name: string;
+  flag: string;
+}
+
 export interface UseHeaderReturn {
   federalLinks: HeaderLink[];
   handleVLibrasClick: () => void;
+  // Language dropdown
+  languages: Language[];
+  selectedLanguage: Language;
+  isLanguageDropdownOpen: boolean;
+  toggleLanguageDropdown: () => void;
+  selectLanguage: (language: Language) => void;
+  closeLanguageDropdown: () => void;
+  languageDropdownRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export const useHeader = (): UseHeaderReturn => {
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>({
+    code: 'pt-BR',
+    name: 'Português (Brasil)',
+    flag: '🇧🇷'
+  });
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const languageDropdownRef = useRef<HTMLDivElement>(null);
+
+  const languages: Language[] = useMemo(() => [
+    {
+      code: 'pt-BR',
+      name: 'Português (Brasil)',
+      flag: '🇧🇷'
+    },
+    {
+      code: 'en-US',
+      name: 'English (US)',
+      flag: '🇺🇸'
+    }
+  ], []);
+
   const federalLinks: HeaderLink[] = useMemo(() => [
     {
       text: "Simplifique!",
@@ -49,8 +84,43 @@ export const useHeader = (): UseHeaderReturn => {
     console.log('VLibras ativado - Funcionalidade será implementada futuramente');
   };
 
+  const toggleLanguageDropdown = () => {
+    setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
+  };
+
+  const selectLanguage = (language: Language) => {
+    setSelectedLanguage(language);
+    setIsLanguageDropdownOpen(false);
+    console.log(`Idioma alterado para: ${language.name}`);
+  };
+
+  const closeLanguageDropdown = () => {
+    setIsLanguageDropdownOpen(false);
+  };
+
+  // Fechar dropdown quando clicar fora
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target as Node)) {
+        closeLanguageDropdown();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return {
     federalLinks,
-    handleVLibrasClick
+    handleVLibrasClick,
+    languages,
+    selectedLanguage,
+    isLanguageDropdownOpen,
+    toggleLanguageDropdown,
+    selectLanguage,
+    closeLanguageDropdown,
+    languageDropdownRef,
   };
-};
+}
