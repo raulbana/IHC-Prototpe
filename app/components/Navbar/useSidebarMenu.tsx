@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavGroupProps } from "./NavGroup/NavGroup";
 import { usePathname } from "next/navigation";
+import { useCallback } from "react";
 
 const initialMenuData: NavGroupProps[] = [
   {
@@ -261,7 +262,7 @@ const useSidebarMenu = () => {
     window.location.href = "/";
   };
 
-  const toggleSection = (title: string) => {
+  const toggleSection = useCallback((title: string) => {
     setMenuData((prevMenuData) =>
       prevMenuData.map((section) =>
         section.title === title
@@ -269,11 +270,14 @@ const useSidebarMenu = () => {
           : section
       )
     );
-  };
+  }, []);
 
-  const createOnToggle = (title: string) => () => toggleSection(title);
+  const createOnToggle = useCallback(
+    (title: string) => () => toggleSection(title),
+    [toggleSection]
+  );
 
-  const initializeMenu = () => {
+  const initializeMenu = useCallback(() => {
     setMenuData((prevMenuData) =>
       prevMenuData.map((section) => ({
         ...section,
@@ -281,11 +285,11 @@ const useSidebarMenu = () => {
         onToggle: createOnToggle(section.title),
       }))
     );
-  };
+  }, [createOnToggle]);
 
   useEffect(() => {
     initializeMenu();
-  }, []);
+  }, [initializeMenu]);
 
   const updateSectionItems = (
     section: NavGroupProps,
