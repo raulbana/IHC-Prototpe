@@ -3,6 +3,7 @@
 import { useCursosCargaHorariaEaD } from "./useCursosCargaHorariaEaD";
 import DataTable from "@/app/components/DataTable/DataTable";
 import DisciplinaDetalhes from "./components/DisciplinaDetalhes/DisciplinaDetalhes";
+import Select from "@/app/components/Select/Select";
 
 export default function CargaHorariaEAD() {
     const {
@@ -20,6 +21,16 @@ export default function CargaHorariaEAD() {
         tabelaRef,
         fecharDetalhes,
     } = useCursosCargaHorariaEaD();
+
+    const setorOptions = setores.map((s, idx) => ({
+        value: idx,
+        label: s.nome
+    }));
+
+    const cursoOptions = setor?.cursos.map((c, idx) => ({
+        value: idx,
+        label: c.nome
+    })) || [];
 
     return (
         <main className="min-h-screen bg-white text-gray-800 py-8 px-4 md:px-16">
@@ -41,39 +52,32 @@ export default function CargaHorariaEAD() {
                 <h3 className="text-2xl font-semibold mb-4 text-default-blue">Navegue pelos Setores e Cursos</h3>
                 <div className="flex gap-4 items-end mb-6">
                     <div className="w-1/2">
-                        <label className="block mb-1 font-medium">Setor:</label>
-                        <select
-                            className="border rounded px-2 py-1 w-full"
+                        <Select
+                            label="Setor:"
+                            placeholder="Selecione um setor"
+                            options={setorOptions}
                             value={setorSelecionado ?? ""}
                             onChange={e => {
                                 setSetorSelecionado(e.target.value === "" ? null : Number(e.target.value));
                                 setCursoSelecionado(null);
                                 setDisciplinaSelecionada(null);
                             }}
-                        >
-                            <option value="">Selecione um setor</option>
-                            {setores.map((s, idx) => (
-                                <option key={s.nome} value={idx}>{s.nome}</option>
-                            ))}
-                        </select>
+                            title="Selecione um setor para ver os cursos"
+                        />
                     </div>
                     <div className="w-1/2">
-                        <label className="block mb-1 font-medium">Curso:</label>
-                        <select
-                            className={`border rounded px-2 py-1 w-full ${!setor ? 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-70' : ''}`}
+                        <Select
+                            label="Curso:"
+                            placeholder="Todos os cursos"
+                            options={cursoOptions}
                             value={cursoSelecionado ?? ""}
                             onChange={e => {
                                 setCursoSelecionado(e.target.value === "" ? null : Number(e.target.value));
                                 setDisciplinaSelecionada(null);
                             }}
                             disabled={!setor}
-                            title={!setor ? "Selecione um setor primeiro" : ""}
-                        >
-                            <option value="">Todos os cursos</option>
-                            {setor?.cursos.map((c, idx) => (
-                                <option key={c.nome} value={idx}>{c.nome}</option>
-                            ))}
-                        </select>
+                            title={!setor ? "Selecione um setor primeiro" : "Selecione um curso para ver apenas suas disciplinas"}
+                        />
                     </div>
                 </div>
                 <div>
