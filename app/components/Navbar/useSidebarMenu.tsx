@@ -252,63 +252,74 @@ const initialMenuData: NavGroupProps[] = [
 ];
 
 const useSidebarMenu = () => {
-	const [menuData, setMenuData] = useState(initialMenuData);
-	const pathname = usePathname();
+  const [menuData, setMenuData] = useState(initialMenuData);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
-	const navigateToHome = () => {
-		window.location.href = "/";
-	};
+  const pathname = usePathname();
 
-	const toggleSection = (title: string) => {
-		setMenuData((prevMenuData) =>
-			prevMenuData.map((section) =>
-				section.title === title
-					? { ...section, isOpen: !section.isOpen }
-					: section
-			)
-		);
-	};
+  const navigateToHome = () => {
+    window.location.href = "/";
+  };
 
-	const createOnToggle = (title: string) => () => toggleSection(title);
+  const toggleSection = (title: string) => {
+    setMenuData((prevMenuData) =>
+      prevMenuData.map((section) =>
+        section.title === title
+          ? { ...section, isOpen: !section.isOpen }
+          : section
+      )
+    );
+  };
 
-	const initializeMenu = () => {
-		setMenuData((prevMenuData) =>
-			prevMenuData.map((section) => ({
-				...section,
-				isOpen: false,
-				onToggle: createOnToggle(section.title),
-			}))
-		);
-	};
+  const createOnToggle = (title: string) => () => toggleSection(title);
 
-	useEffect(() => {
-		initializeMenu();
-	}, []);
+  const initializeMenu = () => {
+    setMenuData((prevMenuData) =>
+      prevMenuData.map((section) => ({
+        ...section,
+        isOpen: false,
+        onToggle: createOnToggle(section.title),
+      }))
+    );
+  };
+
+  useEffect(() => {
+    initializeMenu();
+  }, []);
 
   const updateSectionItems = (
     section: NavGroupProps,
     pathname: string
   ): NavGroupProps => {
+    const updatedItems = section.items.map((item) => ({
+      ...item,
+      isSelected:
+        pathname === item.navigateTo ||
+        (item.navigateTo !== "/" && pathname === item.navigateTo + "/"),
+    }));
+
+    const shouldBeOpen = updatedItems.some((item) => item.isSelected);
+
     return {
       ...section,
-      items: section.items.map((item) => ({
-        ...item,
-        isSelected: item.navigateTo === pathname,
-      })),
+      items: updatedItems,
+      isOpen: shouldBeOpen ? true : section.isOpen,
     };
   };
 
-	useEffect(() => {
-		setMenuData((prevMenuData) =>
-			prevMenuData.map((section) => updateSectionItems(section, pathname))
-		);
-	}, [pathname]);
+  useEffect(() => {
+    setMenuData((prevMenuData) =>
+      prevMenuData.map((section) => updateSectionItems(section, pathname))
+    );
+  }, [pathname]);
 
-	return {
-		menuData,
-		toggleSection,
-		navigateToHome,
-	};
+  return {
+    menuData,
+    toggleSection,
+    navigateToHome,
+    isOpen,
+    setIsOpen,
+  };
 };
 
 export default useSidebarMenu;

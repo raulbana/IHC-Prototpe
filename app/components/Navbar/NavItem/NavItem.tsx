@@ -16,14 +16,19 @@ const NavItem: React.FC<NavItemProps> = ({
 }) => {
   return (
     <li
-      className={`${isSelected ? "bg-white-500 rounded p-2" : ""} ${
-        isDisabled ? "cursor-not-allowed" : ""
-      } p-2 rounded`}
+      className={`p-2 rounded transition-colors ${
+        isSelected
+          ? "bg-white text-default-blue font-bold"
+          : "text-white hover:bg-white/10"
+      } ${isDisabled ? "cursor-not-allowed opacity-60" : ""}`}
     >
-      <Link href={navigateTo} passHref legacyBehavior>
-        <a className={`${isSelected ? "font-bold" : ""} text-white hover:underline`}>
-          {text}
-        </a>
+      <Link
+        href={navigateTo}
+        className="block w-full"
+        tabIndex={isDisabled ? -1 : 0}
+        aria-disabled={isDisabled}
+      >
+        {text}
       </Link>
     </li>
   );
