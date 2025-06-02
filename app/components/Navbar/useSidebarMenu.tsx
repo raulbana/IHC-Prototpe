@@ -303,7 +303,7 @@ const useSidebarMenu = () => {
     return {
       ...section,
       items: updatedItems,
-      isOpen: shouldBeOpen ? true : section.isOpen,
+      isOpen: shouldBeOpen || section.isOpen,
     };
   };
 
