@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
+import { ColumnDef, CellContext } from "@tanstack/react-table";
 
 type Disciplina = {
   titulo: string;
@@ -18,7 +19,15 @@ type Setor = {
   cursos: Curso[];
 };
 
-type DisciplinaDetalhes = Disciplina & { curso: string; setor: string };
+export type DisciplinaDetalhes = Disciplina & { curso: string; setor: string };
+
+type LinhaDisciplina = {
+  id: string;
+  disciplina: string;
+  curso: string;
+  natureza: "Obrigatória" | "Optativa";
+  detalhes: DisciplinaDetalhes;
+};
 
 export function useCursosCargaHorariaEaD() {
   const [setores, setSetores] = useState<Setor[]>([]);
@@ -31,7 +40,7 @@ export function useCursosCargaHorariaEaD() {
 
   const setor = setores[setorSelecionado ?? -1];
 
-  const disciplinas = useMemo(() => {
+  const disciplinas = useMemo<LinhaDisciplina[]>(() => {
     if (!setor) return [];
     let cursosFiltrados = setor.cursos;
     if (cursoSelecionado !== null) {
@@ -47,27 +56,42 @@ export function useCursosCargaHorariaEaD() {
           ...disc,
           curso: c.nome,
           setor: setor.nome,
-        } as DisciplinaDetalhes,
+        },
       }))
     );
   }, [setor, cursoSelecionado]);
 
-  const columns = useMemo(
+  const columns = useMemo<ColumnDef<LinhaDisciplina>[]>(
     () => [
       {
         accessorKey: "disciplina",
         header: "Disciplina",
-        cell: (info: { getValue: () => string }) => info.getValue(),
+        cell: (info: CellContext<LinhaDisciplina, unknown>) =>
+          typeof info.getValue() === "string"
+            ? info.getValue()
+            : JSON.stringify(info.getValue() ?? ""),
       },
       {
         accessorKey: "curso",
         header: "Curso",
-        cell: (info: { getValue: () => string }) => info.getValue(),
+        cell: (info: CellContext<LinhaDisciplina, unknown>) =>
+          typeof info.getValue() === "string"
+            ? info.getValue()
+            : JSON.stringify(info.getValue() ?? ""),
       },
       {
         accessorKey: "natureza",
         header: "Natureza",
-        cell: (info: { getValue: () => string }) => info.getValue(),
+        cell: (info: CellContext<LinhaDisciplina, unknown>) => {
+          const value = info.getValue();
+          if (typeof value === "string") {
+            return value;
+          } else if (value != null) {
+            return JSON.stringify(value);
+          } else {
+            return "";
+          }
+        },
       },
     ],
     []
