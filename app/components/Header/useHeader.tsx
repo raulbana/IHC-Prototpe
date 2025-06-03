@@ -15,7 +15,6 @@ export interface Language {
 export interface UseHeaderReturn {
   federalLinks: HeaderLink[];
   handleVLibrasClick: () => void;
-  // Language dropdown
   languages: Language[];
   selectedLanguage: Language;
   isLanguageDropdownOpen: boolean;
@@ -23,6 +22,7 @@ export interface UseHeaderReturn {
   selectLanguage: (language: Language) => void;
   closeLanguageDropdown: () => void;
   languageDropdownRef: React.RefObject<HTMLDivElement | null>;
+  toggleContrast: () => void;
 }
 
 export const useHeader = (): UseHeaderReturn => {
