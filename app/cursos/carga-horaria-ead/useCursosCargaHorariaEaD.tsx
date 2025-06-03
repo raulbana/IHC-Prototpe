@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useMemo, useRef } from "react";
+import { ColumnDef, CellContext } from "@tanstack/react-table";
 
 type Disciplina = {
   titulo: string;
@@ -19,19 +19,28 @@ type Setor = {
   cursos: Curso[];
 };
 
+export type DisciplinaDetalhes = Disciplina & { curso: string; setor: string };
+
+type LinhaDisciplina = {
+  id: string;
+  disciplina: string;
+  curso: string;
+  natureza: "Obrigatória" | "Optativa";
+  detalhes: DisciplinaDetalhes;
+};
+
 export function useCursosCargaHorariaEaD() {
   const [setores, setSetores] = useState<Setor[]>([]);
   const [setorSelecionado, setSetorSelecionado] = useState<number | null>(null);
   const [cursoSelecionado, setCursoSelecionado] = useState<number | null>(null);
-  const [disciplinaSelecionada, setDisciplinaSelecionada] = useState<
-    any | null
-  >(null);
+  const [disciplinaSelecionada, setDisciplinaSelecionada] =
+    useState<DisciplinaDetalhes | null>(null);
   const detalhesRef = useRef<HTMLDivElement>(null);
   const tabelaRef = useRef<HTMLDivElement>(null);
 
   const setor = setores[setorSelecionado ?? -1];
 
-  const disciplinas = useMemo(() => {
+  const disciplinas = useMemo<LinhaDisciplina[]>(() => {
     if (!setor) return [];
     let cursosFiltrados = setor.cursos;
     if (cursoSelecionado !== null) {
@@ -52,22 +61,37 @@ export function useCursosCargaHorariaEaD() {
     );
   }, [setor, cursoSelecionado]);
 
-  const columns = useMemo(
+  const columns = useMemo<ColumnDef<LinhaDisciplina>[]>(
     () => [
       {
         accessorKey: "disciplina",
         header: "Disciplina",
-        cell: (info: any) => info.getValue(),
+        cell: (info: CellContext<LinhaDisciplina, unknown>) =>
+          typeof info.getValue() === "string"
+            ? info.getValue()
+            : JSON.stringify(info.getValue() ?? ""),
       },
       {
         accessorKey: "curso",
         header: "Curso",
-        cell: (info: any) => info.getValue(),
+        cell: (info: CellContext<LinhaDisciplina, unknown>) =>
+          typeof info.getValue() === "string"
+            ? info.getValue()
+            : JSON.stringify(info.getValue() ?? ""),
       },
       {
         accessorKey: "natureza",
         header: "Natureza",
-        cell: (info: any) => info.getValue(),
+        cell: (info: CellContext<LinhaDisciplina, unknown>) => {
+          const value = info.getValue();
+          if (typeof value === "string") {
+            return value;
+          } else if (value != null) {
+            return JSON.stringify(value);
+          } else {
+            return "";
+          }
+        },
       },
     ],
     []

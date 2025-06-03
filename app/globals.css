@@ -26,3 +26,62 @@
   scrollbar-color: #2176d2 #1659BF;
   scrollbar-width: thin;
 }
+
+[data-contrast="true"] {
+  --color-white: #000;              
+  --color-black: #fff;             
+  --color-default-blue: #FFD600;
+  --color-blue-50: #222;            
+  --color-blue-100: #222;
+  --color-blue-200: #333;
+  --color-blue-300: #444;
+  --color-blue-500: #FFD600;        
+  --color-blue-600: #FFD600;
+  --color-blue-700: #FFD600;
+  --color-blue-800: #FFD600;
+  --color-blue-900: #FFD600;
+  --color-yellow-600: #FFD600;      
+  --color-yellow-700: #FFD600;
+  --color-gray-50: #000;            
+  --color-gray-100: #000;
+  --color-gray-200: #111;
+  --color-gray-300: #222;
+  --color-gray-400: #333;
+  --color-gray-500: #FFD600;   
+  --color-gray-600: #FFD600;
+  --color-gray-700: #FFD600;
+  --color-gray-800: #FFD600;
+  --color-gray-900: #FFD600;
+  --color-red-500: #FF1744;         
+  --color-red-600: #FF1744;
+  --color-red-700: #FF1744;
+  --color-red-800: #FF1744;
+  --color-red-900: #FF1744;
+  --color-emerald-800: #FFD600;     
+  --color-emerald-900: #FFD600;
+  --color-slate-300: #FFD600;
+  --color-slate-400: #FFD600;
+  --color-slate-500: #FFD600;
+  --color-slate-600: #FFD600;
+  --color-slate-700: #FFD600;
+  --color-slate-800: #FFD600;
+  --color-indigo-500: #FFD600;
+  --color-indigo-600: #FFD600;
+}
+
+[data-contrast="true"] .sidebar-scroll::-webkit-scrollbar {
+  background: #000 !important;
+}
+[data-contrast="true"] .sidebar-scroll::-webkit-scrollbar-thumb {
+  background: #FFD600 !important;
+}
+[data-contrast="true"] .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: #FFD600 !important;
+}
+[data-contrast="true"] .sidebar-scroll::-webkit-scrollbar-track {
+  background: #000 !important;
+}
+[data-contrast="true"] .sidebar-scroll {
+  scrollbar-color: #FFD600 #000 !important;
+  scrollbar-width: thin;
+}
