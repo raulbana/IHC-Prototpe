@@ -19,14 +19,14 @@ export type IconPosition = "LEFT" | "RIGHT";
 
 export interface ButtonProps {
   text?: string;
-  onClick?: (param?: any) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   type?: ButtonType;
   disabled?: boolean;
   extraClass?: string;
   size?: ButtonSize;
   typeButton?: "button" | "submit" | "reset";
   children?: React.ReactNode;
-  iconPosition?: IconPosition; 
+  iconPosition?: IconPosition;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -38,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
   extraClass = "",
   typeButton,
   children,
-  iconPosition = "LEFT", 
+  iconPosition = "LEFT",
 }) => {
   const { getButtonColor, getButtonSize } = useButton(type, size);
 

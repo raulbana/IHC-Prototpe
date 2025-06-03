@@ -25,37 +25,38 @@ const useDataTable = <T extends object>({
 
     const searchTermLower = searchTerm.toLowerCase().trim();
 
-    return usedData.filter((item) => {
-      if (!item) return false;
+    const searchInObject = (obj: Record<string, unknown>): boolean => {
+      for (const key in obj) {
+        const value = obj[key];
 
-      const searchInObject = (obj: any): boolean => {
-        for (const key in obj) {
-          const value = obj[key];
+        if (key.startsWith("_") || typeof value === "function") {
+          continue;
+        }
 
-          if (key.startsWith("_") || typeof value === "function") {
-            continue;
+        if (value === null || value === undefined) {
+          continue;
+        }
+
+        if (typeof value === "object") {
+          if (searchInObject(value as Record<string, unknown>)) {
+            return true;
           }
+          continue;
+        }
 
-          if (value === null || value === undefined) {
-            continue;
-          }
-
-          if (typeof value === "object") {
-            if (searchInObject(value)) {
-              return true;
-            }
-            continue;
-          }
-
+        if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
           const valueStr = String(value).toLowerCase();
           if (valueStr.includes(searchTermLower)) {
             return true;
           }
         }
-        return false;
-      };
+      }
+      return false;
+    };
 
-      return searchInObject(item);
+    return usedData.filter((item) => {
+      if (!item) return false;
+      return searchInObject(item as Record<string, unknown>);
     });
   }, [searchTerm, usedData]);
 

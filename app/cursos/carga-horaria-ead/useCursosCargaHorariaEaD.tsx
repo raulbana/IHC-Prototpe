@@ -18,13 +18,14 @@ type Setor = {
   cursos: Curso[];
 };
 
+type DisciplinaDetalhes = Disciplina & { curso: string; setor: string };
+
 export function useCursosCargaHorariaEaD() {
   const [setores, setSetores] = useState<Setor[]>([]);
   const [setorSelecionado, setSetorSelecionado] = useState<number | null>(null);
   const [cursoSelecionado, setCursoSelecionado] = useState<number | null>(null);
-  const [disciplinaSelecionada, setDisciplinaSelecionada] = useState<
-    any | null
-  >(null);
+  const [disciplinaSelecionada, setDisciplinaSelecionada] =
+    useState<DisciplinaDetalhes | null>(null);
   const detalhesRef = useRef<HTMLDivElement>(null);
   const tabelaRef = useRef<HTMLDivElement>(null);
 
@@ -46,7 +47,7 @@ export function useCursosCargaHorariaEaD() {
           ...disc,
           curso: c.nome,
           setor: setor.nome,
-        },
+        } as DisciplinaDetalhes,
       }))
     );
   }, [setor, cursoSelecionado]);
@@ -56,17 +57,17 @@ export function useCursosCargaHorariaEaD() {
       {
         accessorKey: "disciplina",
         header: "Disciplina",
-        cell: (info: any) => info.getValue(),
+        cell: (info: { getValue: () => string }) => info.getValue(),
       },
       {
         accessorKey: "curso",
         header: "Curso",
-        cell: (info: any) => info.getValue(),
+        cell: (info: { getValue: () => string }) => info.getValue(),
       },
       {
         accessorKey: "natureza",
         header: "Natureza",
-        cell: (info: any) => info.getValue(),
+        cell: (info: { getValue: () => string }) => info.getValue(),
       },
     ],
     []

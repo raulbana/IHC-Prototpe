@@ -1,4 +1,3 @@
-"use client";
 import {
   useReactTable,
   getCoreRowModel,
@@ -12,16 +11,20 @@ import { robotoFont } from "@/app/assets/fontsSetup";
 import Input from "../Input/Input";
 import useDataTable from "./useDataTable";
 
-export interface DataTableProps {
-  data: any[];
-  columns: ColumnDef<any>[];
-  controls?: ButtonProps[] | ((data: any) => ButtonProps[]);
+export interface DataTableProps<T> {
+  data: T[];
+  columns: ColumnDef<T>[];
+  controls?: ButtonProps[] | ((data: T) => ButtonProps[]);
 }
 
-const DataTable: React.FC<DataTableProps> = ({ data, columns, controls }) => {
-  const { currentData, handleSearch } = useDataTable({ data });
-  const table = useReactTable({
-    getRowId: (row) => row.id,
+function DataTable<T extends { id: string | number }>({
+  data,
+  columns,
+  controls,
+}: Readonly<DataTableProps<T>>) {
+  const { currentData, handleSearch } = useDataTable<T>({ data });
+  const table = useReactTable<T>({
+    getRowId: (row) => String(row.id),
     data: currentData,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -65,7 +68,10 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, controls }) => {
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id} className="px-4 py-3">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </td>
                   ))}
                   {controls &&
@@ -115,7 +121,8 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, controls }) => {
           <CaretLeft aria-label="Página anterior" />
         </Button>
         <span className={`text-sm font-medium`}>
-          Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
+          Página {table.getState().pagination.pageIndex + 1} de{" "}
+          {table.getPageCount()}
         </span>
         <Button
           type={"SECONDARY"}
@@ -128,6 +135,6 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, controls }) => {
       </div>
     </div>
   );
-};
+}
 
 export default DataTable;
