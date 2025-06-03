@@ -83,14 +83,7 @@ function DataTable<T extends { id: string | number }>({
                         key={`controls-${control.text ?? index}`}
                         className="px-4 py-3"
                       >
-                        <Button
-                          {...control}
-                          onClick={() => {
-                            if (control.onClick) {
-                              control.onClick(currentData[row.index]);
-                            }
-                          }}
-                        >
+                        <Button {...control} onClick={control.onClick}>
                           {control.children}
                         </Button>
                       </td>
