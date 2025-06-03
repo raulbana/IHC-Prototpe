@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { NavGroupProps } from "./NavGroup/NavGroup";
 import { usePathname } from "next/navigation";
-import { useCallback } from "react";
 
 const initialMenuData: NavGroupProps[] = [
   {
