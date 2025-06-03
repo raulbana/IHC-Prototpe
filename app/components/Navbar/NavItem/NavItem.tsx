@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export interface NavItemProps {
   isSelected: boolean;
@@ -15,23 +16,20 @@ const NavItem: React.FC<NavItemProps> = ({
 }) => {
   return (
     <li
-      className={`${isSelected ? "bg-white-500 rounded p-2" : ""} ${
-        isDisabled ? "cursor-not-allowed" : ""
-      } p-2 rounded`}
+      className={`p-2 rounded transition-colors ${
+        isSelected
+          ? "bg-white text-default-blue font-bold"
+          : "text-white hover:bg-white/10"
+      } ${isDisabled ? "cursor-not-allowed opacity-60" : ""}`}
     >
-      <a
+      <Link
         href={navigateTo}
-        className={`${isDisabled ? "text-gray-500" : "text-white"} ${
-          isSelected ? "font-bold" : ""
-        }`}
-        onClick={(e) => {
-          if (isDisabled) {
-            e.preventDefault();
-          }
-        }}
+        className="block w-full"
+        tabIndex={isDisabled ? -1 : 0}
+        aria-disabled={isDisabled}
       >
         {text}
-      </a>
+      </Link>
     </li>
   );
 };

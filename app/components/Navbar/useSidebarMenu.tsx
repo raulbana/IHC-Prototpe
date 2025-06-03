@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavGroupProps } from "./NavGroup/NavGroup";
-
-/*  NavItemProps {
-  isSelected: boolean;
-  isDisabled: boolean;
-  text: string;
-  navigateTo: string;
-} */
+import { usePathname } from "next/navigation";
+import { useCallback } from "react";
 
 const initialMenuData: NavGroupProps[] = [
   {
@@ -27,8 +22,8 @@ const initialMenuData: NavGroupProps[] = [
       {
         isSelected: false,
         isDisabled: false,
-        text: "Equipe",
-        navigateTo: "/equipe",
+        text: "Equipes",
+        navigateTo: "/sobre/equipes",
       },
       {
         isSelected: false,
@@ -63,8 +58,14 @@ const initialMenuData: NavGroupProps[] = [
       {
         isSelected: false,
         isDisabled: false,
-        text: "Acesso e Criação de Usuário",
-        navigateTo: "/acesso-criacao-usuario",
+        text: "Acesso",
+        navigateTo: "/acesso",
+      },
+      {
+        isSelected: false,
+        isDisabled: false,
+        text: "Criação de Usuário",
+        navigateTo: "/client/signup",
       },
       {
         isSelected: false,
@@ -112,7 +113,7 @@ const initialMenuData: NavGroupProps[] = [
         isSelected: false,
         isDisabled: false,
         text: "Carga Horária EaD",
-        navigateTo: "/carga-horaria-ead",
+        navigateTo: "/cursos/carga-horaria-ead",
       },
     ],
     isOpen: false,
@@ -192,6 +193,12 @@ const initialMenuData: NavGroupProps[] = [
         text: "Contato LABCIPEAD",
         navigateTo: "/contato-labcipead",
       },
+    ],
+    isOpen: false,
+  },
+  {
+    title: "Universidade Aberta do Brasil (UAB)",
+    items: [
       {
         isSelected: false,
         isDisabled: false,
@@ -203,12 +210,6 @@ const initialMenuData: NavGroupProps[] = [
         isDisabled: false,
         text: "Polos",
         navigateTo: "/uab-polos",
-      },
-      {
-        isSelected: false,
-        isDisabled: false,
-        text: "Equipe",
-        navigateTo: "/uab-equipe",
       },
       {
         isSelected: false,
@@ -227,18 +228,6 @@ const initialMenuData: NavGroupProps[] = [
         isDisabled: false,
         text: "Formulários e Templates",
         navigateTo: "/uab-formularios-templates",
-      },
-      {
-        isSelected: false,
-        isDisabled: false,
-        text: "Relatórios e Documentos",
-        navigateTo: "/relatorios-documentos",
-      },
-      {
-        isSelected: false,
-        isDisabled: false,
-        text: "Pagamento de Bolsas (UAB)",
-        navigateTo: "/pagamento-bolsas-uab",
       },
     ],
     isOpen: false,
@@ -265,8 +254,15 @@ const initialMenuData: NavGroupProps[] = [
 
 const useSidebarMenu = () => {
   const [menuData, setMenuData] = useState(initialMenuData);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  const toggleSection = (title: string) => {
+  const pathname = usePathname();
+
+  const navigateToHome = () => {
+    window.location.href = "/";
+  };
+
+  const toggleSection = useCallback((title: string) => {
     setMenuData((prevMenuData) =>
       prevMenuData.map((section) =>
         section.title === title
@@ -274,11 +270,14 @@ const useSidebarMenu = () => {
           : section
       )
     );
-  };
+  }, []);
 
-  const createOnToggle = (title: string) => () => toggleSection(title);
+  const createOnToggle = useCallback(
+    (title: string) => () => toggleSection(title),
+    [toggleSection]
+  );
 
-  const initializeMenu = () => {
+  const initializeMenu = useCallback(() => {
     setMenuData((prevMenuData) =>
       prevMenuData.map((section) => ({
         ...section,
@@ -286,15 +285,44 @@ const useSidebarMenu = () => {
         onToggle: createOnToggle(section.title),
       }))
     );
-  };
+  }, [createOnToggle]);
 
   useEffect(() => {
     initializeMenu();
-  }, []);
+  }, [initializeMenu]);
+
+  const updateSectionItems = (
+    section: NavGroupProps,
+    pathname: string
+  ): NavGroupProps => {
+    const updatedItems = section.items.map((item) => ({
+      ...item,
+      isSelected:
+        pathname === item.navigateTo ||
+        (item.navigateTo !== "/" && pathname === item.navigateTo + "/"),
+    }));
+
+    const shouldBeOpen = updatedItems.some((item) => item.isSelected);
+
+    return {
+      ...section,
+      items: updatedItems,
+      isOpen: shouldBeOpen || section.isOpen,
+    };
+  };
+
+  useEffect(() => {
+    setMenuData((prevMenuData) =>
+      prevMenuData.map((section) => updateSectionItems(section, pathname))
+    );
+  }, [pathname]);
 
   return {
     menuData,
     toggleSection,
+    navigateToHome,
+    isOpen,
+    setIsOpen,
   };
 };
 

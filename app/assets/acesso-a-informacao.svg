@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<svg width="117" height="49" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <defs>
+  <style type="text/css">
+   <![CDATA[.a {font: normal bold 11px Open Sans, sans-serif;}]]>
+  </style>
+ </defs>
+ <g class="layer">
+  <title>Layer 1</title>
+  <circle cx="22" cy="23" fill="#f6a800" id="svg_1" r="22"/>
+  <path d="m4,43l3,-6l4,3l-7,3z" id="svg_2" stroke="#f6a800" stroke-linejoin="round" stroke-width="4"/>
+  <circle cx="22" cy="11" fill="#00692c" id="svg_3" r="4.5"/>
+  <g fill="#fff" id="svg_4">
+   <text fill="#45556c" id="svg_5" x="48" y="22">
+    <tspan class="a" fill="#45556c" id="svg_6" y="18">Acesso à</tspan>
+    <tspan class="a" fill="#45556c" id="svg_7" x="48" y="31">Informação</tspan>
+   </text>
+  </g>
+  <path d="m22,23l0,13" id="svg_8" stroke="#00692c" stroke-linecap="round" stroke-width="9"/>
+ </g>
+</svg>
