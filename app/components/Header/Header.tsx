@@ -19,6 +19,7 @@ const Header: React.FC<HeaderProps> = ({ className = "" }) => {
     toggleLanguageDropdown,
     selectLanguage,
     languageDropdownRef,
+    toggleContrast,
   } = useHeader();
 
   return (
@@ -75,6 +76,35 @@ const Header: React.FC<HeaderProps> = ({ className = "" }) => {
               </button>
             </div>
             <span className="text-blue-300">|</span>
+            <div className="flex items-center">
+              <button
+                className="flex items-center bg-blue-800 px-3 py-1 rounded hover:bg-blue-900 transition-colors"
+                onClick={toggleContrast}
+                title="Ativar/desativar alto contraste"
+                type="button"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6 mr-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    fill="currentColor"
+                    className="text-white"
+                  />
+                  <path d="M12 2a10 10 0 000 20V2z" fill="#FFD600" />
+                </svg>
+                <span className="text-xs font-semibold">Alto Contraste</span>
+              </button>
+            </div>
             <div
               className="relative flex items-center"
               ref={languageDropdownRef}

@@ -5,6 +5,7 @@ import NavGroup from "./NavGroup/NavGroup";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { List as HamburgerIcon, X } from "phosphor-react";
+import BannerSeadipNav from "../../assets/banner-seadip-nav.png";
 
 export interface SidebarMenuProps {
   children?: ReactNode;
@@ -26,7 +27,7 @@ const SidebarMenu = ({ children }: SidebarMenuProps) => {
             <div className="flex w-full justify-center items-center p-2 cursor-pointer">
               <Image
                 alt="Banner SEaDIP - Superintendência de Educação à Distância e Inovações Pedagógicas da UFPR"
-                src="https://cipead.ufpr.br/wp-content/uploads/2025/01/bannersite25.png"
+                src={BannerSeadipNav}
                 width={300}
                 height={60}
                 onClick={navigateToHome}
